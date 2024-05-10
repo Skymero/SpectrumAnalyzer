@@ -70,8 +70,10 @@ plt.setp(ax, xticks=[0, CHUNK, 2 * CHUNK], yticks=[0, 128, 255]) #Sets the x and
 
 ax2.set_xlim(20, RATE / 2) # Sets the x-axis limits for the second subplot (FFT plot).
 
-ax3.set_title("Signal to Noise Ratio")
-ax4.set_title("Total Harmonic Distorion")
+ax3.set_xlabel('Time (s)')
+ax3.set_ylabel('SNR')
+ax4.set_xlabel('Time (s)')
+ax4.set_ylabel('THD')
 
 snr_vals = []
 thd_vals = []
@@ -134,25 +136,30 @@ def animate(i):
 
     ax.set_title(f'AUDIO WAVEFORM\nSNR: {snr:.2f} dB')
     ax2.set_title(f'FFT (SNR: {snr:.2f} dB, THD: {thd_val:.2f} dB)')
+    ax3.clear()
+    ax4.clear()
+    ax3.set_title(f'Signal to noise ratio: {snr:.2f} dB')  # Updated line
+    ax4.set_title(f'Total Harmonic Distortion: {thd_val:.2f} dB')  # Updated line
+    
+    #ax3.set_title('Signal to noise ratio')    
+    # ax3.set_xlabel('Time (s)')
+    # ax3.set_ylabel('SNR')
+    #ax3.plot(range(len(snr_vals)), snr_vals, color='blue')
 
-    #ax3.clear()
-    ax3.set_title(f'Signal to noise ratio')
+
+    #ax4.set_title('Total Harmonic Distortion')
+    # ax4.set_xlabel('Time (s)')
+    # ax4.set_ylabel('THD')
+        
     ax3.plot(range(len(snr_vals)), snr_vals, color='blue')
-    ax3.set_xlabel('Time (s)')
-    ax3.set_ylabel('SNR')
-
-    #ax4.clear()
-    ax3.set_title(f'Total Harmonic Distortion')
     ax4.plot(range(len(thd_vals)), thd_vals, color='red')
-    ax4.set_xlabel('Time (s)')
-    ax4.set_ylabel('THD')
 
     # Check for errors in the console output
 
     return line, line_fft, ax3, ax4
 
 
-ani = animation.FuncAnimation(fig, animate, blit=True, interval=25)
+ani = animation.FuncAnimation(fig, animate, blit=False, interval=25)
 
 plt.show()
 
