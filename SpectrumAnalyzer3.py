@@ -65,7 +65,7 @@ line_fft, = ax2.semilogx(x_fft, np.random.rand(CHUNK), '-', lw=2) # Initializes 
 ax.set_title('AUDIO WAVEFORM')
 ax.set_xlabel('samples')
 ax.set_ylabel('volume')
-ax.set_ylim(-100, 300) #Sets the y-axis limits for the first subplot.
+ax.set_ylim(-250, 250) #Sets the y-axis limits for the first subplot.
 ax.set_xlim(0, 2 * CHUNK) #Sets the x-axis limits for the first subplot.
 plt.setp(ax, xticks=[0, 2 * CHUNK, CHUNK], yticks=[-250,-150,0, 150, 250]) #Sets the x and y-axis tick marks for the first subplot.
 
@@ -92,8 +92,8 @@ def animate(i):
     # Calculate SNR
     snr = signaltonoise(data_int)
     snr_vals.append(snr)
-    # print("SNR: ", snr)
-    # print("Signal SNR: ", snr)
+    #print("SNR: ", snr)
+
 
     #print("Data before FFT:", data_int[:10]) # Test line
     signal_mean = np.mean(data_int)
@@ -116,6 +116,7 @@ def animate(i):
     thd_val = thd(np.abs(y_fft))
     thd_vals.append(thd_val)
     #print("THD: ", thd_val)
+    #print(y_fft)
     #print("FFT result:", y_fft[:10]) # Test line
     
     # Updates the y-data of the line object (line) representing the waveform plot to the 
@@ -142,7 +143,7 @@ def animate(i):
     # Computes the maximum value of the scaled and normalized 
     # FFT data for the first CHUNK elements of y_fft.
     max_fft_value = np.max(np.abs(y_fft[:CHUNK]) * 2 / (256 * CHUNK))
-    #print("FFT max value: ", max_fft_value)
+
 
     # Dynamically adjusts the y-axis limits of the FFT plot (ax2) to 
     # ensure that the highest peak of the FFT is still visible, with some additional padding.
@@ -157,7 +158,6 @@ def animate(i):
     ax3.plot(range(len(snr_vals)), snr_vals, color='blue')
     ax4.plot(range(len(thd_vals)), thd_vals, color='red')
 
-    # Check for errors in the console output
 
     return line, line_fft, ax3, ax4
 
